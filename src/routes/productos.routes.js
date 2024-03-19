@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { listarProductos } from '../controllers/productos.routes.js' //tiene q llevar la extension
+import { crearProducto, listarProductos } from '../controllers/productos.controllers.js' //tiene q llevar la extension
 
 
 // app.get('/nuevo/producto', (req,res)=>{
@@ -10,7 +10,7 @@ import { listarProductos } from '../controllers/productos.routes.js' //tiene q l
 
 const router = Router()// instanciamos para desde aqui poder crear rutas
 //defino la ruta. Dentro de get se podria poner la funcion para obtener los datos, pero es mejor hacerlo en otro archivo
-router.route('/nuevo/producto').get(listarProductos)
+router.route('/productos').get(listarProductos).post(crearProducto)//para la misma ruta tenemos dos metodos (nunca iguales), depediendo cual clickee el usuario                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 
 export default router
-
+ 
