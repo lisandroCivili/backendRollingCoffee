@@ -4,9 +4,29 @@ import Producto from "../database/models/producto.js"
 export const listarProductos = async(req,res)=>{
     try {
         //pedir a la bd lista de todos los productos
-        const productos = await Producto.find()//"find" devuelve todos los datos de una coleccion
+        const productos = await Producto.find()//"find" devuelve todos los datos de una coleccion. Puede tener parametros para agregar filtros al momento d devolver
         //responder al front con array de productos 
         res.status(200).json(productos)
+    } catch (error) {
+        console.error(error)
+        res.status(400).json({
+            mensaje: 'Error al buscar los productos'
+        })
+    }
+}
+export const obtenerProducto = async(req,res)=>{
+    try {
+        //verificar si el producto existe con el id correspondiente
+        console.log(req.params.id);
+        const productoBuscado = await Producto.findById(req.params.id)//"id" debe conincidir con lo que pusimos en la ruta
+        //si no existe contestar con un status 404
+        if (!productoBuscado) {
+            return res.status(404).json({
+                mensaje: 'El ID enviado no corresponde a ningún producto'
+            })
+        }
+        //si existe enviarlo al frontend, con status 202
+        res.status(200).json(productoBuscado)
     } catch (error) {
         console.error(error)
         res.status(400).json({
