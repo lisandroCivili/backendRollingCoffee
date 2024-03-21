@@ -56,3 +56,47 @@ export const crearProducto = async(req, res)=>{
         })
     }
 }
+
+export const editarProducto = async(req,res)=> {
+    try {
+
+        //VALIDAR DATOS DEL BODY
+
+        //verificar si el producto existe con el id correspondiente
+        const productoBuscado = await Producto.findById(req.params.id)//"id" debe conincidir con lo que pusimos en la ruta
+        //si no existe contestar con un status 404
+        if (!productoBuscado) {
+            return res.status(404).json({
+                mensaje: 'El ID enviado no corresponde a ningún producto'
+            })
+        }
+        //si existe, modificar prod. y enviar res 202
+        await Producto.findByIdAndUpdate(req.params.id, req.body)
+        res.status(200).json({mensaje: 'El producto fue editado correctamente'})
+    } catch (error) {
+        console.error(error)
+        //status 500 signfica error interno del servidor
+        res.status(500).json({
+            mensaje: 'Error al editar el producto'
+        })
+    }}
+export const borrarProducto = async(req,res)=> {
+    try {
+        //verificar si el producto existe con el id correspondiente
+        const productoBuscado = await Producto.findById(req.params.id)//"id" debe conincidir con lo que pusimos en la ruta
+        //si no existe contestar con un status 404
+        if (!productoBuscado) {
+            return res.status(404).json({
+                mensaje: 'El ID enviado no corresponde a ningún producto'
+            })
+        }
+        //si existe, eliminar prod. y enviar res 200
+        await Producto.findByIdAndDelete(req.params.id)
+        res.status(200).json({mensaje: 'El producto fue eliminado correctamente'})
+    } catch (error) {
+        console.error(error)
+        //status 500 signfica error interno del servidor
+        res.status(500).json({
+            mensaje: 'Error al eliminado el producto'
+        })
+    }}
